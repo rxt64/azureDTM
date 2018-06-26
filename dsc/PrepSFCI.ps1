@@ -13,8 +13,8 @@ configuration PrepSFCI
         
         [String]$DomainNetbiosName = (Get-NetBIOSName -DomainName $DomainName),
 
-        [Int]$RetryCount = 20,
-        [Int]$RetryIntervalSec = 30
+        [Int]$RetryCount = 120,
+        [Int]$RetryIntervalSec = 130
     )
 
     Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xSQLServer, xPendingReboot, xNetworking
