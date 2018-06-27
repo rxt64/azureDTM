@@ -108,8 +108,17 @@ configuration ConfigSFCI
             Name       = $env:COMPUTERNAME
             DomainName = $DomainName
             Credential = $DomainCreds
-            DependsOn  = "[xWaitForADDomain]DscForestWait"
+            DependsOn  = "[xWaitForADDomain]DscForestWait"            
         }
+                
+        Group AddToAdmin
+        {
+            GroupName='Administrators'    #we want to add the user to the built-in Admin group
+
+            DependsOn= '[xComputer]DomainJoin' #we want this to execute after the user is created
+
+            MembersToInclude=$DomainCreds    #we can reuse the same value for our User creation config, 
+         }  
 
         Script MoveClusterGroups0 {
             SetScript  = 'try {Get-ClusterGroup -ErrorAction SilentlyContinue | Move-ClusterGroup -Node $env:COMPUTERNAME -ErrorAction SilentlyContinue} catch {}'
