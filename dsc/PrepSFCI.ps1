@@ -69,6 +69,13 @@ configuration PrepSFCI
             Credential = $DomainCreds
             DependsOn  = "[xWaitForADDomain]DscForestWait"
         }
+        
+        Group AddToAdmin
+        {
+            GroupName='Administrators'    #we want to add the user to the built-in Admin group
+            DependsOn= '[xComputer]DomainJoin' #we want this to execute after the user is created
+            MembersToInclude=$DomainCreds    #we can reuse the same value for our User creation config, 
+         }   
 
         Script CleanSQL {
             SetScript  = 'C:\SQLServerFull\Setup.exe /Action=Uninstall /FEATURES=SQL,AS,IS,RS /INSTANCENAME=MSSQLSERVER /Q'
